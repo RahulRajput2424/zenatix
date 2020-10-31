@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-from zenatixTask.models import User
+from zenatixTask.models import User, Ingredient
 from django.contrib.auth import authenticate, login
 
 class UserSignupSerializer(serializers.ModelSerializer):
@@ -47,3 +47,7 @@ class UserLoginSerializer(serializers.Serializer):
         validate_data["user"] = user
         return validate_data
 
+class IngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields  = '__all__'

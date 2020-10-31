@@ -2,11 +2,12 @@ import datetime
 from rest_framework import  generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from zenatixTask.models import User
+from zenatixTask.models import User, Ingredient
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import  login
 from rest_framework import status
-from zenatixTask.serializers import UserSignupSerializer, UserLoginSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from zenatixTask.serializers import UserSignupSerializer, UserLoginSerializer, IngredientSerializer
 
 class UserSignupView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -40,3 +41,8 @@ class UserLoginView(APIView):
         else:
             error_data = serializer.errors
             return Response(data=error_data)
+
+class AddIngredient(generics.CreateAPIView):
+    queryset = Ingredient.objects.all()
+    permission_classes = (IsAuthenticated,)
+    serializer_class = IngredientSerializer
