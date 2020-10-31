@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from zenatixTask.models import User, Ingredient
 from rest_framework.authtoken.models import Token
+# from django.utils.decorators import method_decorator
+# from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import  login
 from rest_framework import status
-from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly, IsAdminUser
 from zenatixTask.serializers import UserSignupSerializer, UserLoginSerializer, IngredientSerializer
 
 class UserSignupView(generics.CreateAPIView):
@@ -42,7 +44,8 @@ class UserLoginView(APIView):
             error_data = serializer.errors
             return Response(data=error_data)
 
+# @method_decorator(csrf_exempt, name='dispatch')
 class AddIngredient(generics.CreateAPIView):
     queryset = Ingredient.objects.all()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
     serializer_class = IngredientSerializer

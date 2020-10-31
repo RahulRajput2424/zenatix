@@ -12,8 +12,9 @@ class User(AbstractUser):
 class Ingredient(models.Model):
     UNIT_CHOICES = (
       (1, 'kg'),
+      (2, 'liter'),
     )
     name = models.CharField(max_length=255,unique=True)
     quantity = models.IntegerField()
-    unit = models.IntegerField(choices=UNIT_CHOICES,default=None)
+    unit = models.IntegerField(choices=UNIT_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
