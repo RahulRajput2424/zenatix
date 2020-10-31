@@ -19,3 +19,31 @@ class UserSignupSerializer(serializers.ModelSerializer):
         user.set_password(validate_data['password'])
         user.save()
         return user
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+    class Meta:
+        model = User
+        fields = ['email','password']
+    
+    def validate_email(self, email):
+        if not User.objects.filter(email__iexact=email).exists():
+            raise serializers.ValidationError("User does not exists. You need to  signup.")
+        return email
+
+    def validate(self, validate_data):
+        email = validate_data.get('email')
+        password = validate_data.get('password')
+        
+        if email and password:
+            user_obj = User.objects.get(email__iexact=email)
+            username = user_obj.username
+            user = authenticate(username=username, password=password)
+            if not user:
+                raise serializers.ValidationError("Invalid email or Password.")
+        else:
+            raise serializers.ValidationError('Must include "username" and "password".')
+        validate_data["user"] = user
+        return validate_data
+

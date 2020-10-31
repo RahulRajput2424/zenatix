@@ -6,7 +6,7 @@ from zenatixTask.models import User
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import  login
 from rest_framework import status
-from zenatixTask.serializers import UserSignupSerializer
+from zenatixTask.serializers import UserSignupSerializer, UserLoginSerializer
 
 class UserSignupView(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -22,3 +22,21 @@ class UserSignupView(generics.CreateAPIView):
             'data': response.data
         })
 
+class UserLoginView(APIView):
+    authentication_classes = []
+    permission_classes = []
+    
+    def post(self, request):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.validated_data['user']
+            login(request, user)
+            token= Token.objects.get_or_create(user=user)
+            response = {"data": {"message":"You have logged in successfully.",
+													  "token": str(token), 
+										},
+								"status": 200,}
+            return Response(response, status=status.HTTP_200_OK)
+        else:
+            error_data = serializer.errors
+            return Response(data=error_data)
