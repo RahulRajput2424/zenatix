@@ -1,3 +1,9 @@
 from django.contrib import admin
+from zenatixTask.models import Ingredient, User
 
-# Register your models here.
+
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ['name','quantity','unit','price']
+
+admin.site.register(Ingredient,IngredientAdmin)
+admin.site.register(User)

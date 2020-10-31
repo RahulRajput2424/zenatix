@@ -17,4 +17,4 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=255,unique=True)
     quantity = models.IntegerField()
     unit = models.IntegerField(choices=UNIT_CHOICES)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    price = models.FloatField()
