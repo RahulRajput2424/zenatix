@@ -47,5 +47,5 @@ class UserLoginView(APIView):
 # @method_decorator(csrf_exempt, name='dispatch')
 class AddIngredient(generics.CreateAPIView):
     queryset = Ingredient.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,IsAdminUser]
     serializer_class = IngredientSerializer
