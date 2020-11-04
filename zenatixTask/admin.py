@@ -1,5 +1,5 @@
 from django.contrib import admin
-from zenatixTask.models import Ingredient, User
+from zenatixTask.models import *
 
 
 class IngredientAdmin(admin.ModelAdmin):
@@ -7,3 +7,7 @@ class IngredientAdmin(admin.ModelAdmin):
 
 admin.site.register(Ingredient,IngredientAdmin)
 admin.site.register(User)
+admin.site.register(Product)
+admin.site.register(IngredientProduct)
+admin.site.register(OrderDetails)
+
